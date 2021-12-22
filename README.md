@@ -123,29 +123,34 @@ But, since the aim was to have a clock that changes colour when it’s night it 
 The push button and the potentiometer can be used to change clock state and settings.
 
 The light sensor will make sure that the clock face is bright or dark enough for the surrounding light.
-Push button
-LEDs on
-1 short click - Turn off LEDs.
-2 fast clicks - Activate day mode if night mode is active (see below).
-Long press, 2 seconds - Activates night mode if day mode is active (see below).
-Long press, 4 seconds - Activates night time interval setup (see below).
-LEDs off
-1 short click - Turn on LEDs.
-2 fast clicks - Activate light sensor mode (see below).
-Long press, 2 seconds - Activates party mode (see below).
-Potentiometer
+#### Push button
+**LEDs on**
+- 1 short click - Turn off LEDs.
+- 2 fast clicks - Activate day mode if night mode is active (see below).
+- Long press, 2 seconds - Activates night mode if day mode is active (see below).
+- Long press, 4 seconds - Activates night time interval setup (see below).
+
+**LEDs off**
+- 1 short click - Turn on LEDs.
+- 2 fast clicks - Activate light sensor mode (see below).
+- Long press, 2 seconds - Activates party mode (see below).
+
+#### Potentiometer
 In night time interval setup mode the potentiometer is used to change the time.
-Switching between day and night mode
+
+#### Switching between day and night mode
 It is possible to change between day and night mode outside of the set interval.
 
 When day mode is active and the LEDs are on, press and hold the push button for 2 seconds. The separator LEDs will turn red and if the push button is released at this time night time mode will be activated.
 
 If night mode is active and the LEDs are on, double click the push button and day mode will be activated. Useful if the smol human in question has woken up shortly before the night time interval is set to end and they want to get out of bed.
-Night time setup
+
+#### Night time setup
 If the push button is pressed and held for 4 seconds (while the LEDs are on), the separator LEDs will turn blue. If the button is released at this time the night time setup mode will activate. The start time for the interval will be shown on the clock face and the hour digits will start flashing. Use the potentiometer to change the time and push the button to set. Once both a start and end time has been set for the night time mode, double-click the push button to save the new interval to the flash storage. Since the flash storage is used for this setting it will be kept even if power is lost to the clock.
 
 Night time setup mode can be canceled by holding the push button for 2 seconds, until the separator LEDs turn blue.
-Light sensor mode (dev setting)
+
+#### Light sensor mode (dev setting)
 To help with tweaking the code for the light sensor I implemented a light sensing mode. It's not necessary for daily use of the clock but I decided to keep it in the code anyway. It’s not set to the highest possible resolution, I’ve instead picked a happy medium. It can of course be changed to accomodate better resolution or higher maximum possible lux values (see the linked docs below).
 
 With the LEDs off, double-click the push button to activate this mode. The current calculated lux value from the light sensor will be displayed on the clock face. If a value higher than 9999 is recorded only dashes will be displayed. If a value less than 100 is recorded the value will be displayed with two decimal places, using the lower separator LED as a decimal point.
@@ -156,7 +161,8 @@ Double-clicking the push button again will end the light sensor mode.
 
 See here for docs on how the light sensor is configured for an application:
 https://www.vishay.com/docs/84323/designingveml7700.pdf
-Party Time
+
+#### Party Time
 If the LEDs are off, and the push button is held for 2 seconds the Party Time mode will activate. This will randomly pick one of three rainbow patterns that is displayed on the clock face for 30 seconds.
 
 The patterns are:
@@ -168,7 +174,7 @@ The patterns are:
 
 Party Time mode can be canceled by double clicking the push button.
 
-### Persistent settings storage
+#### Persistent settings storage
 Night time interval settings are persistent. This is achieved by saving these to the flash storage (since the Arduino Nano 33 IoT lacks an EEPROM).
 
 Using the board’s flash memory has some implications though, mainly that repeated writing to a flash storage will damage it. Generally it is recommended to keep the number of writes to a flash storage to less than 10000, so with any normal use of the clock this should not be an issue.
