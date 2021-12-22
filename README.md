@@ -102,7 +102,7 @@ The front panel is attached to the clock with a few screws from the back of the 
 ![Screws attaching the front panel](/images/clock_face_attach.jpg)
 
 ## Software
-The software for this project can be found on [GitHub]https://www.github.com/johan-m-o/NightTimeClock).
+The software for this project can be found on [GitHub](https://www.github.com/johan-m-o/NightTimeClock).
 
 ### Setup
 When preparing the software for upload to the board, the arduino_secrets.h file needs to be set up with the following variables (download the file from GitHub for ease of setup, it needs to be in the same project directory as the main .ino file):
