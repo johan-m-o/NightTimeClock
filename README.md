@@ -167,7 +167,8 @@ The patterns are:
 ![Party Time pattern 1](/images/pattern01.gif) ![Party Time pattern 2](/images/pattern02.gif) ![Party Time pattern 3](/images/pattern03.gif)
 
 Party Time mode can be canceled by double clicking the push button.
-Persistent settings storage
+
+### Persistent settings storage
 Night time interval settings are persistent. This is achieved by saving these to the flash storage (since the Arduino Nano 33 IoT lacks an EEPROM).
 
 Using the board’s flash memory has some implications though, mainly that repeated writing to a flash storage will damage it. Generally it is recommended to keep the number of writes to a flash storage to less than 10000, so with any normal use of the clock this should not be an issue.
