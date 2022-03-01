@@ -114,9 +114,6 @@ When preparing the software for upload to the board, the arduino_secrets.h file 
 ### Features
 It’s a clock. It tells time (24 hours).
 
-#### Daylight savings
-The clock will automatically adjust for daylight savings. This function is based on Swedish times, so if this doesn't match your region you'll need to update the `DSTcheck()` function with the proper dates.
-
 ![Showing the time, in green](/images/green02.jpg)
 
 But, since the aim was to have a clock that changes colour when it’s night it also does that. The clock face is green during the day and red during the night. By default the time interval for night time is 18:30 to 6:45 (because that’s what fits my everyday life), but this can be changed (see below).
@@ -126,6 +123,10 @@ But, since the aim was to have a clock that changes colour when it’s night it 
 The push button and the potentiometer can be used to change clock state and settings.
 
 The light sensor will make sure that the clock face is bright or dark enough for the surrounding light.
+
+#### Daylight savings
+The clock will automatically adjust for daylight savings. This function is based on Swedish times, so if this doesn't match your region you'll need to update the `DSTcheck()` function with the proper dates.
+
 #### Push button
 **LEDs on**
 - 1 short click - Turn off LEDs.
