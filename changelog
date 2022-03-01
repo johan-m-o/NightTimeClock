@@ -1,0 +1,13 @@
+Night Time Clock Changelog
+
+Copyright (c) 2021-2022 Johan Oscarsson
+Released under the MIT licence
+
+Documentation and code: https://www.github.com/johan-m-o/NightTimeClock
+
+v1.1 - 2022-03-01
+- Fixed daylight savings
+- Fixed setting the year
+
+v1.0 - 2021-12-22
+- Initial release

@@ -1,6 +1,6 @@
 /*
-   Night Time Clock v1.0
-   Copyright (c) 2021 Johan Oscarsson
+   Night Time Clock v1.1
+   Copyright (c) 2021-2022 Johan Oscarsson
    Released under the MIT licence
 
    Documentation and project comments can be found on Github:
@@ -65,10 +65,11 @@ FlashStorage(morningM_storage, byte);
  *****************/
  
 // Calcualte if 1 or 2 hours should be added to the time, depending on if it's daylight savings time or not (current code for GMT+1)
-int dstCheck(byte y, byte mth, byte d) {
+int dstCheck(int y, byte mth, byte d) {
   int item;
   int h = 3600;
-  byte w = (d += mth < 3 ? y-- : y - 2, 23 * mth / 9 + d + 4 + y / 4 - y / 100 + y / 400) % 7; // Find weekday, http://stackoverflow.com/a/21235587
+  byte dCalc = d;
+  byte w = (dCalc += mth < 3 ? y-- : y - 2, 23 * mth / 9 + dCalc + 4 + y / 4 - y / 100 + y / 400) % 7; // Find weekday, http://stackoverflow.com/a/21235587
 
   if (mth == 3 && d >= 25) { // Daylight savings starts on the last Sunday of March
     item = h * 2;
@@ -91,15 +92,16 @@ int dstCheck(byte y, byte mth, byte d) {
   } else {
     item = h;
   }
+
   return item;
 }
 
 // Set RTC time from NTP server
 void rtcSet() {
   unsigned long t = WiFi.getTime(); // Poll the WiFi-module for NTP time 
-  int dstComp = dstCheck(1970 + year(t) - 2, month(t), day(t));
+  int dstComp = dstCheck(year(t), month(t), day(t));
   rtc.setTime(hour(t + dstComp), minute(t), second(t));
-  rtc.setDate(day(t), month(t), 1970 + year(t) - 2);
+  rtc.setDate(day(t), month(t), year(t));
 }
 
 // Check if night mode needs to be enabled
@@ -528,11 +530,7 @@ void loop() {
           rainbowStrip = 0;
           
           // Cycle through the hues
-          if (i < 256) {
-            i++;
-          } else {
-            i = 0;
-          }
+          i++;
           
           for (j = 0; j < 13; j++) {
             // Change LED strip
