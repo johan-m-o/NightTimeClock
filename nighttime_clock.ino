@@ -1,5 +1,5 @@
 /*
-   Night Time Clock v1.1
+   Night Time Clock v1.2
    Copyright (c) 2021-2022 Johan Oscarsson
    Released under the MIT licence
 
@@ -7,12 +7,12 @@
    https://www.github.com/johan-m-o/NightTimeClock
 */
 
-#include <Adafruit_VEML7700.h>      // Adafruit VEML 7700 light sensor library https://github.com/adafruit/Adafruit_VEML7700
-#include <FastLED.h>                // FastLED LED control library https://github.com/FastLED/FastLED
-#include <FlashStorage.h>           // Save data to flash memory (the Nano 33 lacks an EEPROM) https://github.com/cmaglie/FlashStorage
-#include <RTCZero.h>                // Arduino RTC library https://www.arduino.cc/en/Reference/RTC
-#include <TimeLib.h>                // Arduino Time Library https://www.github.com/PaulStoffregen/Time
-#include <WiFiNINA.h>               // Arduino WiFi Library https://github.com/arduino-libraries/wifinina
+#include <Adafruit_VEML7700.h>      // Adafruit VEML 7700 light sensor library https://github.com/adafruit/Adafruit_VEML7700 (Tested and working on v1.1.1)
+#include <FastLED.h>                // FastLED LED control library https://github.com/FastLED/FastLED (Tested and working on v3.5.0)
+#include <FlashStorage.h>           // Save data to flash memory (the Nano 33 lacks an EEPROM) https://github.com/cmaglie/FlashStorage (Tested and working on v1.0.0)
+#include <RTCZero.h>                // Arduino RTC library https://www.arduino.cc/en/Reference/RTC (Tested and working on v1.6.0)
+#include <TimeLib.h>                // Arduino Time Library https://www.github.com/PaulStoffregen/Time (Tested and working on v1.6.1)
+#include <WiFiNINA.h>               // Arduino WiFi Library https://github.com/arduino-libraries/wifinina (Tested and working on v1.8.13)
 
 #include "arduino_secrets.h"
 
@@ -65,11 +65,9 @@ FlashStorage(morningM_storage, byte);
  *****************/
  
 // Calcualte if 1 or 2 hours should be added to the time, depending on if it's daylight savings time or not (current code for GMT+1)
-int dstCheck(int y, byte mth, byte d) {
+int dstCheck(int y, byte mth, byte d, byte w) {
   int item;
   int h = 3600;
-  byte dCalc = d;
-  byte w = (dCalc += mth < 3 ? y-- : y - 2, 23 * mth / 9 + dCalc + 4 + y / 4 - y / 100 + y / 400) % 7; // Find weekday, http://stackoverflow.com/a/21235587
 
   if (mth == 3 && d >= 25) { // Daylight savings starts on the last Sunday of March
     item = h * 2;
@@ -98,8 +96,8 @@ int dstCheck(int y, byte mth, byte d) {
 
 // Set RTC time from NTP server
 void rtcSet() {
-  unsigned long t = WiFi.getTime(); // Poll the WiFi-module for NTP time 
-  int dstComp = dstCheck(year(t), month(t), day(t));
+  unsigned long t = WiFi.getTime(); // Poll the WiFi-module for NTP time
+  int dstComp = dstCheck(year(t), month(t), day(t), weekday(t)-1); // Compensate weekday for the 1-7 implementation, starting on Sunday (we need 0-6)
   rtc.setTime(hour(t + dstComp), minute(t), second(t));
   rtc.setDate(day(t), month(t), year(t));
 }
